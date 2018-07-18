@@ -658,6 +658,11 @@ func (d *Decoder) decodeMapFromStruct(name string, dataVal reflect.Value, val re
 
 		// If "squash" is specified in the tag, we squash the field down.
 		squash := false
+
+		if v.Kind() == reflect.Struct {
+			squash = true
+		}
+
 		for _, tag := range tagParts[1:] {
 			if tag == "squash" {
 				squash = true
@@ -933,6 +938,11 @@ func (d *Decoder) decodeStruct(name string, data interface{}, val reflect.Value)
 
 			// If "squash" is specified in the tag, we squash the field down.
 			squash := false
+
+			if fieldKind == reflect.Struct {
+				squash = true
+			}
+
 			tagParts := strings.Split(fieldType.Tag.Get(d.config.TagName), ",")
 			for _, tag := range tagParts[1:] {
 				if tag == "squash" {
